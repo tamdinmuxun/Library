@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -8,6 +9,9 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('books:author_info', args=[self.id])
+
 
 class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -16,3 +20,6 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{str(self.author)}. {self.title}"
+
+    def get_absolute_url(self):
+        return reverse('books:book_info', args=[self.pk])
